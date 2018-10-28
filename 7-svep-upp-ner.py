@@ -12,9 +12,7 @@ def lysa(color):
     pixels.fill(color) # Fyll pixeln med färg
     pixels.show() # Tänd pixeln
 
-number = 0 # number är samma som 0
-
-color = 0 # red är samma som 0
+color = 0 # color är samma som 0
 color_max = 255 # color_max är samma som 255
 color_min = 0 # color_min är samma som 0
 go_up = True
