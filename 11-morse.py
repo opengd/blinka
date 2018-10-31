@@ -1,4 +1,5 @@
 # 11-morse.py
+# https://en.wikipedia.org/wiki/Morse_code
 import time
 import board
 import neopixel
@@ -8,14 +9,14 @@ num_pixels = 1 # Hur många pixlar
 
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.3, auto_write=False)
 
-unit_long = 0.1
+unit_long = 0.1 # The base time unit
 
-mark_short = unit_long
-mark_long = unit_long * 3
+mark_short = unit_long # A short is blink 1 base time unit
+mark_long = unit_long * 3 # A long blink is 3 base time units
 
-gap_marks = unit_long
-gap_letters = unit_long * 3
-gap_words = unit_long * 7
+gap_marks = unit_long # A gap between blinks in a letter is 1 base time unit
+gap_letters = unit_long * 3 # A gap between letters is 3 base time units
+gap_words = unit_long * 7 # A gap between words is 7 base time units
 
 message = "Hello World" # Message to send as morse code
 
@@ -62,28 +63,33 @@ def lysa(color):
     pixels.fill(color) # Fyll pixeln med färg
     pixels.show() # Tänd pixeln
 
-def blink_short():
+def blink_short(): # Blink the pixel short
     lysa((255, 0, 0))
     time.sleep(mark_short)
 
-def blink_long():
+def blink_long(): # Blinkt the pixel long
     lysa((0, 255, 0))
     time.sleep(mark_long)
 
-def pause(pause_time):
+def pause(pause_time): # Pause, turn off the pixel for set of time
     lysa((0, 0, 0))
     time.sleep(pause_time)
 
 while True:
-    for letter in message.lower():
-        if letter in morse_code:
-            for mark in morse_code[letter]:
-                if mark == "*":
-                    blink_short()
-                else:
-                    blink_long()
-                pause(gap_marks)
+    for letter in message.lower(): # For all letters in the string
+        if letter in morse_code: # If the letter exist in the morse code array do
+            for mark in morse_code[letter]: # For all * and - as the letter
+                if mark == "*": # If the mark is a dot
+                    blink_short() # Blinks short
+                else: # If the mark is a dash
+                    blink_long() # Blinkt long
+                pause(gap_marks) # Pause 1 time unit between mark
+            # Pause gap letter time unit subtracted by gap mark unit as we did a pause before
             pause(gap_letters-gap_marks)
         else:
+            # If the letter do not exist in morse code list 
+            # do a word pause minus gap_letters minus gap_marks as when have done thoose pauses before
             pause(gap_words-gap_letters-gap_marks)
+    # If there is no more letters do a
+    # word pause minus gap_letters minus gap_marks as when have done thoose pauses before
     pause(gap_words-gap_letters-gap_marks)
