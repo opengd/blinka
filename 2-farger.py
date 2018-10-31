@@ -2,7 +2,7 @@
 import board
 import neopixel
 
-pixel_pin = board.A1 # På vilken pinne sitter pixeln
+pixel_pin = board.A0 # På vilken pinne sitter pixeln
 num_pixels = 1 # Hur många pixlar
 
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.3, auto_write=False)
